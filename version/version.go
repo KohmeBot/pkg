@@ -1,6 +1,10 @@
 package version
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
 
 type Version uint64
 
@@ -49,4 +53,31 @@ func Y(y uint16) Version {
 func Z(z uint32) Version {
 	var v Version
 	return v.Z(z)
+}
+
+func Parse(s string) (Version, error) {
+	s = strings.ToLower(strings.TrimSpace(s))
+	s = strings.TrimPrefix(s, "v")
+
+	parts := strings.Split(s, ".")
+	if len(parts) != 3 {
+		return 0, fmt.Errorf("invalid version string: %s", s)
+	}
+
+	x, err := strconv.ParseUint(parts[0], 10, 16)
+	if err != nil {
+		return 0, fmt.Errorf("invalid X part: %v", err)
+	}
+
+	y, err := strconv.ParseUint(parts[1], 10, 16)
+	if err != nil {
+		return 0, fmt.Errorf("invalid Y part: %v", err)
+	}
+
+	z, err := strconv.ParseUint(parts[2], 10, 32)
+	if err != nil {
+		return 0, fmt.Errorf("invalid Z part: %v", err)
+	}
+
+	return NewVersion(uint16(x), uint16(y), uint32(z)), nil
 }
