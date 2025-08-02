@@ -2,6 +2,7 @@ package command
 
 import (
 	"fmt"
+	zero "github.com/wdvxdr1123/ZeroBot"
 	"strings"
 )
 
@@ -9,6 +10,17 @@ import (
 type Command struct {
 	CommandGroup []string
 	Desc         string
+	Hidden       bool
+}
+
+// SetHidden 设置命令为隐藏命令
+func (c Command) SetHidden() Command {
+	c.Hidden = true
+	return c
+}
+
+func (c Command) Rule() zero.Rule {
+	return zero.CommandRule(c.CommandGroup...)
 }
 
 func (c Command) String() string {
@@ -48,6 +60,9 @@ func NewCommands(cms ...Command) Commands {
 func (c Commands) String() string {
 	var builder strings.Builder
 	for _, command := range c {
+		if command.Hidden {
+			continue
+		}
 		builder.WriteString(command.String())
 		builder.WriteByte('\n')
 	}

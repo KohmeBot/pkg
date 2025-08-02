@@ -1,6 +1,8 @@
 package command
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCommands_String(t *testing.T) {
 	c := NewCommands(
