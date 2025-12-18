@@ -51,13 +51,14 @@ func (c Command) String() string {
 
 	// 参数说明
 	for i, arg := range c.Args {
-		if i == 0 {
-			b.WriteByte('\n')
-		}
 		if arg.Desc != "" {
+			if i == 0 {
+				b.WriteByte('\n')
+			}
 			b.WriteString(arg.Description())
 			b.WriteByte('\n')
 		}
+
 	}
 
 	return b.String()

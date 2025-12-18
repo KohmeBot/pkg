@@ -11,9 +11,21 @@ func TestCommands_String(t *testing.T) {
 		PluginDesc: "kohme 核心插件",
 		Commands: []Command{
 			{
-				CMD:  "plugins",
-				Args: nil,
-				Desc: "查看已加载插件",
+				CMD: "help",
+				Args: []Arg{
+					{
+						Name: "插件名称",
+					},
+				},
+				Desc: "查看对应插件帮助",
+			},
+			{
+				CMD:  "ping",
+				Desc: "ping一下",
+			},
+			{
+				CMD:  "plugin",
+				Desc: "查看所有插件",
 			},
 			{
 				CMD: "toggle",
